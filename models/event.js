@@ -22,6 +22,8 @@ const eventSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }
+}, {
+    timestamps: { createdAt: true, updatedAt: true }
 });
 
 module.exports = mongoose.model('Event', eventSchema);
