@@ -32,12 +32,13 @@ app.use(
 );
 
 mongoose
-    .connect(
-        `mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@ds159073.mlab.com:59073/${process.env.MONGO_DB}`
-    )
-    .then(() => {
-        app.listen(8000);
-    })
-    .catch(err => {
-        console.log(err);
-    });
+.connect(
+    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ab3qy.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`,
+    { useNewUrlParser: true, useUnifiedTopology: true }
+)
+.then(() => {
+    app.listen(8000);
+})
+.catch(err => {
+    console.log(err);
+});

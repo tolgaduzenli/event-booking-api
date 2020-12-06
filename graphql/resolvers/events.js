@@ -26,6 +26,7 @@ module.exports = {
         let createdEvent;
         try {
             const result = await event.save();
+            console.log(result);
             createdEvent = transformEvent(result);
             const creator = await User.findById(req.userId);
 
@@ -35,6 +36,28 @@ module.exports = {
             creator.createdEvents.push(event);
             await creator.save();
             return createdEvent;
+        } catch (err) {
+            console.log(err);
+            throw err;
+        }
+    },
+    updateEvent: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated!');
+        }
+        const event = await Event.findById(args.eventInput._id);
+        if (!event) {
+            throw new Error('Event not found');
+        }
+        event.title = args.eventInput.title
+        event.description = args.eventInput.description
+        event.price = +args.eventInput.price
+        event.date = new Date(args.eventInput.date)
+
+        try {
+            const result = await event.save();
+            console.log(result);
+            return transformEvent(result);
         } catch (err) {
             console.log(err);
             throw err;
