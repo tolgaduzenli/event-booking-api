@@ -38,5 +38,17 @@ module.exports = {
         } catch (err) {
             throw err;
         }
+    },
+    bookedEventByEventId: async (args, req) => {
+        if (!req.isAuth) {
+            throw new Error('Unauthenticated!');
+        }
+        const bookings = await Booking.find({ user: req.userId, event: args.eventId });
+        if (bookings && bookings.length > 0) {
+            //always return first one
+            return transformBooking(bookings[0]);
+        } else {
+            return null;
+        }
     }
 };
